@@ -1,0 +1,124 @@
+/* ==========================================================================
+   YIP.DESIGN — Swiss Editorial × Ambient Sci-Fi Telemetry
+   Design Tokens & Base Resets
+   ========================================================================== */
+
+:root {
+  /* Paper & Ink */
+  --paper: #EAE6DF;
+  --paper-card: #F5F2EC;
+  --paper-elevated: #FAF8F4;
+  --paper-tint: #E2DDD4;
+
+  --ink-primary: #1A1A1A;
+  --ink-secondary: #5A5A56;
+  --ink-tertiary: #84837D;
+  --ink-hairline: rgba(26, 26, 26, 0.22);
+  --ink-faint: rgba(26, 26, 26, 0.09);
+  --ink-ghost: rgba(26, 26, 26, 0.045);
+
+  /* Ambient Field Accents (Echo Habitat Palette) */
+  --prussian: #0F385A;
+  --prussian-mid: #1B547E;
+  --sage: #6F9190;
+  --sage-deep: #3D5F61;
+  --peach: #F4A28C;
+  --peach-soft: #F7C3B1;
+  --flare-core: #FFFBF5;
+
+  /* Typography */
+  --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Helvetica Neue', sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  /* Easing — Calm, precise, mechanical */
+  --ease-mechanical: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-snap: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Layout Chrome Metrics */
+  --hud-pad-x: clamp(20px, 3vw, 44px);
+  --hud-pad-y: clamp(18px, 2.6vh, 34px);
+  --rail-width: clamp(44px, 4.5vw, 68px);
+
+  /* Z-index Scale */
+  --z-ambient: 1;
+  --z-radar: 2;
+  --z-stage: 10;
+  --z-hud: 30;
+  --z-card-dragging: 80;
+  --z-modal: 100;
+  --z-grain: 200;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: var(--paper);
+  color: var(--ink-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: auto;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink-primary);
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+html.has-modal-open,
+html.has-modal-open body {
+  overflow: hidden;
+}
+
+::selection {
+  background: rgba(15, 56, 90, 0.16);
+  color: var(--ink-primary);
+}
+
+button {
+  font-family: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 1px solid var(--ink-primary);
+  outline-offset: 3px;
+}
+
+/* Monospace technical utility */
+.mono {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 10.5px;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

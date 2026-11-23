@@ -1,0 +1,269 @@
+/* ==========================================================================
+   YIP.DESIGN — Passcode Gate (Two-Scroller Birthday Lock)
+   ========================================================================== */
+
+html.is-locked,
+html.is-locked body {
+  overflow: hidden;
+}
+
+.passcode-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(20px, 4vw, 48px);
+  background: rgba(234, 230, 223, 0.86);
+  backdrop-filter: blur(22px) saturate(1.08);
+  -webkit-backdrop-filter: blur(22px) saturate(1.08);
+  opacity: 1;
+  transition: opacity 0.55s var(--ease-mechanical), visibility 0.55s var(--ease-mechanical);
+}
+
+.passcode-gate.is-unlocked {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.gate-panel {
+  width: 100%;
+  max-width: 440px;
+  background: var(--paper-elevated);
+  border: 1px solid var(--ink-hairline);
+  border-radius: 14px;
+  box-shadow:
+    0 24px 60px rgba(26, 26, 26, 0.08),
+    0 2px 10px rgba(26, 26, 26, 0.04);
+  overflow: hidden;
+  transform: translateY(0) scale(1);
+  transition: transform 0.55s var(--ease-mechanical);
+}
+
+.passcode-gate.is-unlocked .gate-panel {
+  transform: translateY(-10px) scale(0.985);
+}
+
+.gate-panel.is-error {
+  animation: gate-shake 0.38s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+}
+
+@keyframes gate-shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(6px); }
+  60% { transform: translateX(-4px); }
+  80% { transform: translateX(3px); }
+}
+
+.gate-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--ink-faint);
+  color: var(--ink-secondary);
+}
+
+.gate-status-dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--prussian);
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.gate-body {
+  padding: 26px 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.gate-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gate-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+  color: var(--ink-primary);
+}
+
+.gate-subtitle {
+  font-size: 0.88rem;
+  line-height: 1.5;
+  color: var(--ink-secondary);
+}
+
+/* Two-Scroller Drum Container */
+.gate-scrollers {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--paper-card);
+  border: 1px solid var(--ink-faint);
+  border-radius: 10px;
+}
+
+.gate-scroller-col {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gate-scroller-label {
+  text-align: center;
+  color: var(--ink-tertiary);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+}
+
+.gate-wheel-wrap {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--paper-elevated);
+  border: 1px solid var(--ink-faint);
+}
+
+/* Top & bottom fade masks */
+.gate-wheel-wrap::before,
+.gate-wheel-wrap::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 58px;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.gate-wheel-wrap::before {
+  top: 0;
+  background: linear-gradient(to bottom, var(--paper-elevated) 15%, rgba(250, 248, 244, 0) 100%);
+}
+
+.gate-wheel-wrap::after {
+  bottom: 0;
+  background: linear-gradient(to top, var(--paper-elevated) 15%, rgba(250, 248, 244, 0) 100%);
+}
+
+/* Center selection reticle */
+.gate-reticle {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  top: 50%;
+  height: 36px;
+  transform: translateY(-50%);
+  border-top: 1px solid var(--ink-hairline);
+  border-bottom: 1px solid var(--ink-hairline);
+  background: rgba(15, 56, 90, 0.045);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.gate-wheel {
+  height: 100%;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 72px 0; /* (180 - 36) / 2 = 72px so first & last items center */
+  outline: none;
+}
+
+.gate-wheel::-webkit-scrollbar {
+  display: none;
+}
+
+.gate-wheel-item {
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  scroll-snap-align: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: var(--ink-tertiary);
+  transition: color 0.16s ease, transform 0.16s ease;
+  user-select: none;
+  cursor: pointer;
+}
+
+.gate-wheel-item:hover {
+  color: var(--ink-secondary);
+}
+
+.gate-wheel-item.is-selected {
+  color: var(--ink-primary);
+  font-weight: 500;
+}
+
+.gate-wheel-item .item-abbr {
+  font-size: 10.5px;
+  color: var(--ink-tertiary);
+  letter-spacing: 0.12em;
+}
+
+.gate-wheel-item.is-selected .item-abbr {
+  color: var(--prussian);
+}
+
+/* Footer / Submit */
+.gate-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.gate-submit-btn {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  background: var(--ink-primary);
+  color: #FFFFFF;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition: background 0.2s var(--ease-mechanical), transform 0.15s ease;
+}
+
+.gate-submit-btn:hover {
+  background: var(--prussian);
+}
+
+.gate-submit-btn:active {
+  transform: scale(0.99);
+}
+
+.gate-feedback {
+  min-height: 16px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+.gate-feedback.is-error {
+  color: #B43C2E;
+}

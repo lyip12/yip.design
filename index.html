@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>YIP.DESIGN — Multidisciplinary Field Archive</title>
+  <meta name="description"
+    content="Multidisciplinary portfolio of Yip: UX Designer at Google, Photographer, Florist, Engineer, Data Artist, Painter, Writer, and Glass Blower." />
+
+  <!-- Fonts: Plus Jakarta Sans + Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap"
+    rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="./styles/tokens.css" />
+  <link rel="stylesheet" href="./styles/ambient.css" />
+  <link rel="stylesheet" href="./styles/layout.css" />
+  <link rel="stylesheet" href="./styles/cards.css" />
+  <link rel="stylesheet" href="./styles/gate.css" />
+</head>
+
+<body>
+  <!-- Fixed Matte Archival Paper Grain Overlay -->
+  <div class="paper-grain-overlay" aria-hidden="true"></div>
+
+  <!-- ======================================================================
+       Ambient Field: Organic Blurred Mesh Gradients + Dithered Halftone Dots
+       ====================================================================== -->
+  <div id="ambient-field" class="ambient-field" data-role-tone="ux" aria-hidden="true">
+    <div class="ambient-mesh">
+      <div class="blob blob--sage"></div>
+      <div class="blob blob--prussian"></div>
+      <div class="blob blob--peach"></div>
+      <div class="blob blob--card-halo"></div>
+    </div>
+
+    <div class="halftone-layer">
+      <div class="halftone--sage-dark"></div>
+      <div class="halftone--sage-light"></div>
+      <div class="halftone--prussian-dark"></div>
+      <div class="halftone--prussian-light"></div>
+      <div class="halftone--axis-spine"></div>
+    </div>
+
+    <div class="center-flare"></div>
+  </div>
+
+  <!-- ======================================================================
+       Diagrammatic Vector Telemetry Layer (Echo Habitat Radar & Axes)
+       ====================================================================== -->
+  <div id="radar-layer" class="radar-layer" aria-hidden="true">
+    <svg class="radar-svg" viewBox="0 0 1000 840" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Horizontal tick-marked axis passing through center node (500, 420) -->
+      <line class="radar-line" x1="152" y1="420" x2="848" y2="420" />
+      <circle class="radar-dot" cx="152" cy="420" r="3" />
+      <circle class="radar-dot" cx="848" cy="420" r="3" />
+
+      <!-- Axis calibration tick marks (Left & Right) -->
+      <g stroke="rgba(26,26,26,0.28)" stroke-width="1">
+        <line x1="215" y1="414" x2="215" y2="426" />
+        <line x1="242" y1="416" x2="242" y2="424" />
+        <line x1="268" y1="411" x2="268" y2="429" />
+        <line x1="295" y1="416" x2="295" y2="424" />
+        <line x1="322" y1="414" x2="322" y2="426" />
+        <line x1="350" y1="416" x2="350" y2="424" />
+
+        <line x1="650" y1="416" x2="650" y2="424" />
+        <line x1="678" y1="414" x2="678" y2="426" />
+        <line x1="705" y1="416" x2="705" y2="424" />
+        <line x1="732" y1="411" x2="732" y2="429" />
+        <line x1="758" y1="416" x2="758" y2="424" />
+        <line x1="785" y1="413" x2="785" y2="427" />
+      </g>
+
+      <!-- Vertical calibrated central axis with dot terminals -->
+      <line class="radar-line" x1="500" y1="268" x2="500" y2="756" />
+      <circle class="radar-dot" cx="500" cy="268" r="3.5" />
+      <circle class="radar-dot" cx="500" cy="756" r="3.5" />
+
+      <!-- Concentric dashed & solid radar circles centered on the glowing node -->
+      <circle class="radar-ring-dashed" cx="500" cy="420" r="126" />
+      <circle class="radar-ring-white" cx="500" cy="420" r="96" opacity="0.58" />
+      <circle class="radar-ring-dashed" cx="500" cy="420" r="66" opacity="0.65" />
+      <circle class="radar-ring-white" cx="500" cy="420" r="36" opacity="0.72" />
+
+      <!-- Sweeping orbital quarter-arc (rotates gently with active discipline) -->
+      <g class="radar-orbit-group">
+        <path class="radar-line" d="M 405 130 A 305 305 0 0 1 786 526" />
+        <circle class="radar-dot" cx="405" cy="130" r="2.8" />
+        <circle class="radar-dot" cx="786" cy="526" r="2.8" />
+      </g>
+
+      <!-- Glowing central specular star flare -->
+      <g class="radar-center-node" style="transform-origin: 500px 420px;">
+        <line x1="472" y1="420" x2="528" y2="420" stroke="#FFFBF5" stroke-width="1.2" opacity="0.88" />
+        <line x1="500" y1="392" x2="500" y2="448" stroke="#FFFBF5" stroke-width="1.2" opacity="0.88" />
+        <circle cx="500" cy="420" r="5" fill="#FFFDF9" />
+      </g>
+
+      <!-- Scattered registration crosshairs (+) at grid intersections -->
+      <g class="radar-crosshair" stroke-linecap="square">
+        <path d="M266 172 h8 M270 168 v8" />
+        <path d="M250 220 h8 M254 216 v8" />
+        <path d="M204 268 h8 M208 264 v8" />
+        <path d="M150 318 h8 M154 314 v8" />
+        <path d="M294 374 h8 M298 370 v8" />
+        <path d="M362 632 h8 M366 628 v8" />
+        <path d="M402 200 h6 M405 197 v6" opacity="0.55" />
+      </g>
+    </svg>
+  </div>
+
+  <!-- ======================================================================
+       Fixed Swiss Editorial HUD Chrome (Corners & Vertical Side Rails)
+       ====================================================================== -->
+  <header class="hud-chrome" aria-label="Portfolio Telemetry HUD">
+    <div class="hud-top">
+      <!-- Top-Left: Editorial Role Index + Live Cursor Coordinates -->
+      <div class="hud-top-left">
+        <div id="hud-role-index" class="hud-corner-num tabular" aria-live="polite">01</div>
+        <div class="hud-coord-block">
+          <div id="hud-cursor-coords" class="hud-coord-readout">( 0.0 , 0.0 )</div>
+          <div class="hud-coord-tick"></div>
+          <div class="hud-plus">+</div>
+        </div>
+      </div>
+
+      <!-- Top-Center: Brand Title + Three-Dot Plumb + Navigation -->
+      <div class="hud-top-center hud-interactive">
+        <a href="#scroll-experience" class="brand-mark" aria-label="Yip Design Home">
+          YIP.DESIGN
+        </a>
+        <div class="brand-sub-dots" aria-hidden="true">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <nav class="hud-nav-links" aria-label="Primary">
+          <button type="button" id="btn-open-about" class="hud-nav-btn">ABOUT</button>
+        </nav>
+      </div>
+
+      <!-- Top-Right: Active Specimen Number + Registration Crosses -->
+      <div class="hud-top-right">
+        <div class="hud-counter-wrap">
+          <div id="hud-specimen-num" class="hud-corner-num tabular">01</div>
+          <span id="hud-specimen-total" class="hud-counter-label">SPECIMEN / 48</span>
+        </div>
+        <div class="hud-reg-stack" aria-hidden="true">
+          <span class="hud-plus">+</span>
+          <span class="hud-plus">+</span>
+          <span class="hud-plus">+</span>
+          <span class="hud-dotted-v"></span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Left Vertical Side Rail -->
+  <aside class="hud-rail hud-rail--left" aria-hidden="true">
+    <div id="hud-rail-left" class="rail-text">GOOGLE // DIGITAL PRODUCT &amp; AI SYSTEMS</div>
+    <div class="hud-dot-matrix">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+    <span class="hud-dotted-v"></span>
+  </aside>
+
+  <!-- Right Vertical Side Rail -->
+  <aside class="hud-rail hud-rail--right" aria-hidden="true">
+    <div id="hud-rail-right" class="rail-text">AI / YOUTUBE / CTV / ADS</div>
+  </aside>
+
+  <!-- Bottom-Left Module Status + Clickable Role Dots -->
+  <div class="hud-bottom-left">
+    <div id="hud-module-code" class="hud-module-code">MODULE 01</div>
+    <div id="hud-module-sub" class="hud-module-sub">UX DESIGNER // FIELD SAMPLE</div>
+    <div id="hud-progress-dots" class="hud-progress-dots" role="tablist" aria-label="Discipline Progress"></div>
+  </div>
+
+  <!-- Bottom-Right Vector Readout + Calibration Bars -->
+  <div class="hud-bottom-right" aria-hidden="true">
+    <div class="hud-vector-block">
+      <div id="hud-vector-coords" class="hud-coord-readout">( -31.4 , 8.7 )</div>
+      <div class="hud-plus">↓</div>
+      <div class="hud-plus">+</div>
+    </div>
+    <div class="hud-calibration-bars">
+      <span class="hud-plus" style="margin-bottom:2px;">+</span>
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Main Infinite Scroll-Driven Stage: Changing Headline + Draggable Card Stack
+       ====================================================================== -->
+  <main>
+    <section id="scroll-experience" class="scroll-experience" aria-label="Disciplines Showcase">
+      <div class="editorial-stage">
+        <!-- Left Column: Changing Kinetic Role Headline Drum -->
+        <div class="role-column">
+          <div class="role-eyebrow">
+            <span class="role-eyebrow-dot" aria-hidden="true"></span>
+            <span id="role-eyebrow-text">DISCIPLINE // 01 OF 08</span>
+          </div>
+
+          <div id="role-drum-viewport" class="role-drum-viewport"
+            aria-label="Scroll to cycle infinitely through 8 disciplines">
+            <div class="role-focal-bracket" aria-hidden="true"></div>
+            <div id="role-drum-track" class="role-drum-track"></div>
+          </div>
+
+          <div class="role-meta-panel">
+            <p id="role-description" class="role-description">
+              Currently a designer at Google, shaping calm, legible experiences across AI, YouTube, Connected TV, and
+              Ads—turning high-complexity systems into effortless everyday moments.
+            </p>
+          </div>
+        </div>
+
+        <!-- Right Column: Tactile Draggable Card Stack Arena -->
+        <div class="deck-column">
+          <div id="card-arena" class="card-arena" aria-label="Draggable project cards stack">
+            <div class="arena-base-plate" aria-hidden="true">
+              <span class="arena-empty-label">SPECIMEN DECK SLOT<br />CLICK GATHER TO STACK</span>
+            </div>
+          </div>
+
+          <!-- Teenage Engineering Tactile Deck Control Bar -->
+          <div class="deck-controls" role="toolbar" aria-label="Card deck actions">
+            <button type="button" id="btn-deck-prev" class="deck-btn deck-btn--icon" aria-label="Previous card"
+              title="Previous card (Left Arrow)">
+              <svg class="deck-arrow-icon" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M9.5 7H3.5M3.5 7L6.5 4M3.5 7L6.5 10" stroke="currentColor" stroke-width="1.35"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <button type="button" id="btn-deck-next" class="deck-btn deck-btn--icon" aria-label="Next card"
+              title="Next card (Right Arrow)">
+              <svg class="deck-arrow-icon" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M4.5 7H10.5M10.5 7L7.5 4M10.5 7L7.5 10" stroke="currentColor" stroke-width="1.35"
+                  stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <span class="deck-btn-sep" aria-hidden="true"></span>
+            <button type="button" id="btn-deck-fan" class="deck-btn" title="Spread out all cards (F)">
+              SPREAD
+            </button>
+            <span class="deck-btn-sep" aria-hidden="true"></span>
+            <span id="deck-status" class="deck-status-pill">01 / 06</span>
+          </div>
+
+          <p id="deck-hint" class="deck-hint">
+            DRAG &amp; MOVE CARDS TO REVEAL UNDERNEATH · CLICK ANY CARD TO INSPECT
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================================
+       Modal 1: Specimen Dossier Inspector (Click any card without dragging)
+       ====================================================================== -->
+  <div id="dossier-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="dossier-title">
+    <div class="modal-panel">
+      <div class="modal-topbar">
+        <span id="dossier-code" class="mono">SPECIMEN 01 / 48</span>
+        <button type="button" class="modal-close-btn" data-close-modal aria-label="Close modal" title="Close (Esc)">
+          <svg class="modal-close-icon" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" stroke-width="1.4"
+              stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div class="dossier-body">
+        <div class="dossier-visual">
+          <div id="dossier-visual-frame" class="dossier-visual-frame"></div>
+        </div>
+
+        <div class="dossier-content">
+          <div>
+            <span id="dossier-role-tag" class="mono" style="color: var(--prussian);">MODULE 01 // UX DESIGNER</span>
+            <h2 id="dossier-title" class="dossier-title">Specimen Title</h2>
+            <p id="dossier-notes" class="dossier-notes"></p>
+          </div>
+
+          <div>
+            <div class="dossier-specs">
+              <div class="dossier-spec-item">
+                <span class="dossier-spec-label">MEDIUM / STACK</span>
+                <span id="dossier-medium" class="dossier-spec-value">—</span>
+              </div>
+              <div class="dossier-spec-item">
+                <span class="dossier-spec-label">YEAR</span>
+                <span id="dossier-year" class="dossier-spec-value tabular">—</span>
+              </div>
+              <div class="dossier-spec-item">
+                <span class="dossier-spec-label">LOCATION</span>
+                <span id="dossier-location" class="dossier-spec-value">—</span>
+              </div>
+              <div class="dossier-spec-item">
+                <span class="dossier-spec-label">COORDINATES</span>
+                <span id="dossier-coords" class="dossier-spec-value mono" style="font-size: 11px;">—</span>
+              </div>
+            </div>
+
+            <div class="dossier-nav" style="margin-top: 16px;">
+              <button type="button" id="btn-dossier-prev" class="deck-btn" style="border-color: var(--ink-hairline);">←
+                PREV</button>
+              <span id="dossier-counter" class="mono" style="color: var(--ink-secondary);">01 / 06</span>
+              <button type="button" id="btn-dossier-next" class="deck-btn"
+                style="border-color: var(--ink-hairline);">NEXT →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Modal 2: Full Archive Index (All 8 Disciplines Matrix)
+       ====================================================================== -->
+  <div id="index-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="index-title">
+    <div class="modal-panel index-panel">
+      <div class="modal-topbar">
+        <span id="index-summary" class="mono">8 DISCIPLINES · 48 ARCHIVED SPECIMENS</span>
+        <button type="button" class="modal-close-btn" data-close-modal aria-label="Close modal" title="Close (Esc)">
+          <svg class="modal-close-icon" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" stroke-width="1.4"
+              stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div class="index-body">
+        <h2 id="index-title" class="mono" style="color: var(--ink-secondary); margin-bottom: 6px;">
+          SELECT ANY DISCIPLINE TO JUMP DIRECTLY TO ITS CARD STACK
+        </h2>
+        <div id="index-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Modal 3: About / Contact Field Dossier
+       ====================================================================== -->
+  <div id="about-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true"
+    aria-labelledby="about-title">
+    <div class="modal-panel about-panel">
+      <div class="modal-topbar">
+        <span class="mono">DOSSIER // ABOUT LUCY</span>
+        <button type="button" class="modal-close-btn" data-close-modal aria-label="Close modal" title="Close (Esc)">
+          <svg class="modal-close-icon" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M3.5 3.5L10.5 10.5M10.5 3.5L3.5 10.5" stroke="currentColor" stroke-width="1.4"
+              stroke-linecap="round" />
+          </svg>
+        </button>
+      </div>
+      <div class="about-body">
+        <figure class="about-portrait-col">
+          <div class="about-portrait-frame">
+            <img id="about-portrait-img" class="about-portrait-img" src="./assets/images/portrait.jpg" alt="Portrait of Lucy" />
+            <div class="about-portrait-placeholder" aria-hidden="true">
+              <span class="about-reg about-reg--tl">+</span>
+              <span class="about-reg about-reg--tr">+</span>
+              <span class="about-reg about-reg--bl">+</span>
+              <span class="about-reg about-reg--br">+</span>
+              <svg class="about-portrait-glyph" viewBox="0 0 64 64" fill="none">
+                <circle cx="32" cy="24" r="10.5" stroke="currentColor" stroke-width="1.25" />
+                <path d="M14.5 53C16.8 43.2 23.4 38.5 32 38.5C40.6 38.5 47.2 43.2 49.5 53" stroke="currentColor"
+                  stroke-width="1.25" stroke-linecap="round" />
+              </svg>
+              <span class="about-portrait-slot-label">PORTRAIT // 4:5</span>
+            </div>
+          </div>
+          <figcaption class="about-portrait-caption">
+            <span class="mono">FIG. 00 // PORTRAIT</span>
+            <span class="mono">4:5 FRAME</span>
+          </figcaption>
+        </figure>
+
+        <div class="about-content">
+          <div class="about-copy">
+            <h2 id="about-title" class="about-lead">
+              Designer at Google by trade, tactile maker across seven other disciplines whenever hands are free.
+            </h2>
+            <p class="about-p">
+              I believe the best software borrows its calm from physical craft: the timing of molten glass,
+              the restraint of an ikebana stem, the quiet weight of oil on linen, and the clarity of an honest essay.
+            </p>
+            <p class="about-p">
+              Scroll through the vernier headline to loop endlessly across all eight practices, or drag and scatter cards
+              across the light table to inspect what lies underneath.
+            </p>
+          </div>
+
+          <div class="about-footer">
+            <a href="mailto:hello@yip.design" class="colophon-link">→ HELLO@YIP.DESIGN</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       Passcode Gate (Two-Scroller Birthday Lock)
+       ====================================================================== -->
+  <div id="passcode-gate" class="passcode-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div id="gate-panel" class="gate-panel">
+      <div class="gate-topbar">
+        <span class="mono"><span class="gate-status-dot" aria-hidden="true"></span>ACCESS // RESTRICTED</span>
+        <span id="gate-readout" class="mono">INPUT // 01 · 01</span>
+      </div>
+      <div class="gate-body">
+        <div class="gate-header">
+          <h1 id="gate-title" class="gate-title">Enter Birthday Passcode</h1>
+          <p class="gate-subtitle">Set the month and day scrollers to unlock the field archive.</p>
+        </div>
+
+        <div class="gate-scrollers">
+          <div class="gate-scroller-col">
+            <span class="mono gate-scroller-label">MONTH</span>
+            <div class="gate-wheel-wrap">
+              <div class="gate-reticle" aria-hidden="true"></div>
+              <div id="gate-wheel-month" class="gate-wheel" tabindex="0" aria-label="Month scroller"></div>
+            </div>
+          </div>
+
+          <div class="gate-scroller-col">
+            <span class="mono gate-scroller-label">DAY</span>
+            <div class="gate-wheel-wrap">
+              <div class="gate-reticle" aria-hidden="true"></div>
+              <div id="gate-wheel-day" class="gate-wheel" tabindex="0" aria-label="Day scroller"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="gate-actions">
+          <button type="button" id="gate-submit-btn" class="gate-submit-btn">Unlock Archive</button>
+          <p id="gate-feedback" class="gate-feedback" aria-live="polite">SCROLL MONTH &amp; DAY TO UNLOCK</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Entry -->
+  <script type="module" src="./js/main.js"></script>
+</body>
+
+</html>

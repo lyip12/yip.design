@@ -1,0 +1,1557 @@
+/* ==========================================================================
+   Draggable Minimalist Glass / Editorial White / Obsidian Card Deck & Modals
+   ========================================================================== */
+
+.deck-column {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 15;
+}
+
+/* Interactive Card Arena — generous area where cards live and can be freely dragged */
+.card-arena {
+  position: relative;
+  width: min(100%, 480px);
+  height: clamp(422px, 56vh, 512px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Overflow visible so dragged cards can freely roam the entire studio table */
+  overflow: visible;
+}
+
+/* Subtle soft-rounded ghost resting slot behind the empty stack */
+.arena-base-plate {
+  position: absolute;
+  width: clamp(290px, 28.5vw, 366px);
+  height: clamp(376px, 48.5vh, 450px);
+  transform: scale(0.95);
+  border-radius: 26px;
+  border: 1px dashed rgba(26, 26, 26, 0.14);
+  background: rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: opacity 0.4s var(--ease-mechanical);
+}
+
+.arena-empty-label {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  text-align: center;
+  line-height: 1.7;
+}
+
+/* ==========================================================================
+   Individual Specimen Card — Base Geometry & Shared Interactions
+   ========================================================================== */
+
+.specimen-card {
+  position: absolute;
+  width: clamp(290px, 28.5vw, 366px);
+  height: clamp(376px, 48.5vh, 450px);
+  border-radius: 26px;
+  overflow: hidden;
+  isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  transform-origin: center center;
+  will-change: transform, box-shadow;
+  transition:
+    box-shadow 0.4s var(--ease-mechanical),
+    border-color 0.35s var(--ease-mechanical),
+    background 0.35s var(--ease-mechanical);
+}
+
+.specimen-card.is-dragging {
+  cursor: grabbing;
+}
+
+.specimen-card.is-entering {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Soft diagonal luminous glass sheen gliding subtly on hover */
+.card-specular {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    125deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(255, 255, 255, 0.06) 36%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 6;
+  transition: opacity 0.45s var(--ease-mechanical);
+}
+
+.specimen-card:hover .card-specular,
+.specimen-card.is-dragging .card-specular {
+  opacity: 0.9;
+}
+
+/* Shared Clean Minimalist Typography */
+.card-title {
+  font-family: var(--font-sans);
+  font-size: 1.08rem;
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.77rem;
+  font-weight: 400;
+  line-height: 1.38;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Shared Generously Rounded Visual Frame */
+.card-media {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--paper);
+}
+
+.card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  transition: transform 0.7s var(--ease-mechanical);
+}
+
+.specimen-card:hover .card-media img {
+  transform: scale(1.038);
+}
+
+.card-media svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
+}
+
+/* Crisp Pure-White Capsule Badge on Photo Variants (Echoing Reference Pill) */
+.card-media-tag {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 14px -4px rgba(18, 18, 22, 0.16);
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #18181B;
+  z-index: 3;
+}
+
+/* ==========================================================================
+   Signature Liquid-Bridged Metaball CTA (Pill + Arrow Orb)
+   ========================================================================== */
+
+.card-metaball {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  color: #161618;
+  transition: transform 0.35s var(--ease-mechanical);
+}
+
+.specimen-card:hover .card-metaball,
+.specimen-card.is-dragging .card-metaball {
+  transform: scale(1.035);
+}
+
+.card-metaball--compact {
+  height: 30px;
+}
+
+.metaball-compact-svg {
+  width: 52px;
+  height: 30px;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 6px 12px rgba(20, 20, 24, 0.2));
+}
+
+.metaball-chevron {
+  transition: transform 0.32s var(--ease-mechanical);
+}
+
+.specimen-card:hover .metaball-chevron {
+  transform: translateX(1.6px);
+}
+
+/* Labeled Metaball CTA: [ Inspect ]─( > ) */
+.card-metaball--labeled {
+  height: 28px;
+  filter: drop-shadow(0 6px 14px rgba(20, 20, 24, 0.18));
+}
+
+.metaball-pill {
+  height: 28px;
+  padding: 0 13px;
+  border-radius: 999px;
+  background: #161618;
+  color: #FFFFFF;
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.metaball-bridge {
+  width: 24px;
+  height: 28px;
+  margin: 0 -10px;
+  flex-shrink: 0;
+  display: block;
+  color: #161618;
+  position: relative;
+  z-index: 1;
+}
+
+.metaball-orb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #161618;
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 2;
+}
+
+.metaball-orb svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ==========================================================================
+   SURFACE 1: Frosted Translucent Glass Card (.specimen-card--glass)
+   Inspired by the top-left frosted glassmorphism card in the reference
+   ========================================================================== */
+
+.specimen-card--glass {
+  background: linear-gradient(
+    148deg,
+    rgba(255, 255, 255, 0.58) 0%,
+    rgba(250, 241, 238, 0.40) 50%,
+    rgba(243, 218, 212, 0.48) 100%
+  );
+  backdrop-filter: blur(26px) saturate(152%);
+  -webkit-backdrop-filter: blur(26px) saturate(152%);
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.94),
+    inset 0 -1px 1px rgba(20, 20, 24, 0.05),
+    0 18px 42px -12px rgba(15, 38, 58, 0.17),
+    0 4px 14px rgba(20, 20, 24, 0.05);
+  padding: 18px 18px 16px;
+  gap: 10px;
+  color: #161618;
+}
+
+.specimen-card--glass:hover {
+  border-color: rgba(255, 255, 255, 0.9);
+  background: linear-gradient(
+    148deg,
+    rgba(255, 255, 255, 0.68) 0%,
+    rgba(252, 244, 242, 0.50) 50%,
+    rgba(246, 224, 219, 0.56) 100%
+  );
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.98),
+    0 24px 52px -12px rgba(15, 56, 90, 0.22),
+    0 6px 18px rgba(20, 20, 24, 0.07);
+}
+
+.specimen-card--glass.is-dragging {
+  border-color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 1),
+    0 34px 72px -14px rgba(15, 56, 90, 0.28),
+    0 12px 26px rgba(20, 20, 24, 0.12);
+}
+
+.glass-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 2;
+}
+
+.glass-whisper {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  color: rgba(22, 22, 24, 0.36);
+}
+
+.glass-year {
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #18181B;
+}
+
+.glass-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  position: relative;
+  z-index: 2;
+}
+
+.specimen-card--glass .card-title {
+  color: #141416;
+  font-size: 1.04rem;
+}
+
+/* Delicate Outlined Pill Badge (Echoing Reference "(P) Pinterest" Pill) */
+.glass-outline-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px 3px 5px;
+  border-radius: 999px;
+  border: 1px solid rgba(22, 22, 24, 0.24);
+  background: rgba(255, 255, 255, 0.28);
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #18181B;
+  flex-shrink: 0;
+}
+
+.pill-dot-badge {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #161618;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.pill-dot-badge::after {
+  content: '';
+  position: absolute;
+  inset: 3.5px;
+  border-radius: 50%;
+  background: #FFFFFF;
+}
+
+.specimen-card--glass .card-media {
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  box-shadow: 0 8px 22px -10px rgba(15, 38, 58, 0.16);
+  position: relative;
+  z-index: 2;
+}
+
+/* Frosted Translucent Capsule Strip (Echoing Reference Pill Fields) */
+.glass-field-pill {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 5px 12px 5px 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.64);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.84);
+  box-shadow: 0 4px 14px -6px rgba(20, 20, 24, 0.08);
+  position: relative;
+  z-index: 2;
+}
+
+.glass-field-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  color: #18181B;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 6px rgba(20, 20, 24, 0.07);
+}
+
+.glass-field-icon svg {
+  width: 13px;
+  height: 13px;
+}
+
+.specimen-card--glass .card-subtitle {
+  color: #242428;
+  font-size: 0.75rem;
+}
+
+.glass-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 2px;
+  position: relative;
+  z-index: 2;
+}
+
+.glass-micro-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.glass-meta-primary {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(22, 22, 24, 0.72);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.glass-meta-secondary {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 400;
+  color: rgba(22, 22, 24, 0.46);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   SURFACE 2: Pure Crisp Editorial White + Split Frosted Glass Pane
+   Inspired by the tall right "Jan 2025" card in the reference
+   ========================================================================== */
+
+.specimen-card--white {
+  background: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.96);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 20px 48px -14px rgba(15, 38, 58, 0.15),
+    0 4px 14px rgba(20, 20, 24, 0.05);
+  padding: 18px 18px 15px;
+  gap: 10px;
+  color: #141416;
+}
+
+.specimen-card--white:hover {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 26px 58px -14px rgba(15, 56, 90, 0.21),
+    0 6px 20px rgba(20, 20, 24, 0.07);
+}
+
+.specimen-card--white.is-dragging {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 1),
+    0 36px 76px -14px rgba(15, 56, 90, 0.28),
+    0 12px 26px rgba(20, 20, 24, 0.12);
+}
+
+/* Luminous Blush-Peach Orb Straddling the Vertical Frosted Glass Seam */
+.white-orb-glow {
+  position: absolute;
+  width: 158px;
+  height: 158px;
+  border-radius: 50%;
+  top: 18px;
+  left: 24%;
+  background: radial-gradient(
+    circle at 36% 32%,
+    #FFE2DC 0%,
+    #F8A99D 44%,
+    #EF887C 80%,
+    rgba(239, 136, 124, 0.9) 100%
+  );
+  opacity: 0.84;
+  pointer-events: none;
+  z-index: 0;
+  transition: transform 0.65s var(--ease-mechanical), opacity 0.45s var(--ease-mechanical);
+}
+
+.specimen-card--white:hover .white-orb-glow {
+  transform: scale(1.06) translate(4px, -2px);
+  opacity: 0.94;
+}
+
+/* Vertical Translucent Frosted Glass Sheet Over the Left Column */
+.white-frost-pane {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  width: 44%;
+  border-radius: 19px;
+  background: linear-gradient(
+    180deg,
+    rgba(243, 243, 246, 0.74) 0%,
+    rgba(247, 246, 249, 0.60) 52%,
+    rgba(242, 242, 246, 0.72) 100%
+  );
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.86);
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.4s var(--ease-mechanical);
+}
+
+/* On Photo Cards: Let the Frosted Glass Strip Softly Refract the Left Edge of the Photo */
+.specimen-card--white.specimen-card--media-image .white-frost-pane {
+  width: 31%;
+  z-index: 3;
+  background: linear-gradient(
+    180deg,
+    rgba(244, 244, 247, 0.72) 0%,
+    rgba(246, 246, 249, 0.42) 48%,
+    rgba(244, 244, 247, 0.72) 100%
+  );
+}
+
+.specimen-card--white.specimen-card--media-image .white-orb-glow {
+  top: 26%;
+  left: 14%;
+  opacity: 0.52;
+}
+
+.specimen-card--white.specimen-card--media-image .card-media {
+  z-index: 1;
+}
+
+.white-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  z-index: 4;
+}
+
+/* Large Stacked High-Contrast Minimalist Display Index + Muted Year ("Jan / 2025") */
+.white-index-stack {
+  display: flex;
+  flex-direction: column;
+  padding-left: 4px;
+}
+
+.white-big-num {
+  font-family: var(--font-sans);
+  font-size: 1.75rem;
+  font-weight: 500;
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  color: #141416;
+}
+
+.white-big-year {
+  font-family: var(--font-sans);
+  font-size: 1.42rem;
+  font-weight: 300;
+  line-height: 1.04;
+  letter-spacing: -0.03em;
+  color: #AEAEB7;
+  margin-top: 1px;
+}
+
+.white-corner-caption {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  padding-top: 3px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 1.48;
+  color: #2A2A2E;
+}
+
+.white-corner-caption span:last-child {
+  color: #8E8E98;
+}
+
+/* Media Container in Editorial White Card */
+.specimen-card--white .card-media {
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba(20, 20, 24, 0.06);
+  box-shadow: 0 10px 26px -12px rgba(15, 38, 58, 0.14);
+}
+
+.white-copy-block {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 0 4px;
+  position: relative;
+  z-index: 4;
+}
+
+.specimen-card--white .card-title {
+  color: #141416;
+  font-size: 1.02rem;
+}
+
+.specimen-card--white .card-subtitle {
+  color: #7D7D87;
+  font-size: 0.74rem;
+}
+
+.white-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 2px 0 4px;
+  position: relative;
+  z-index: 4;
+}
+
+.white-brand-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-width: 0;
+}
+
+.white-emblem {
+  display: inline-flex;
+  color: #18181B;
+}
+
+.white-emblem svg {
+  width: 22px;
+  height: 14px;
+}
+
+.white-mark-label {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #2A2A2E;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 118px;
+}
+
+/* ==========================================================================
+   SURFACE 3: Deep Velvety Matte Obsidian Card (.specimen-card--obsidian)
+   Inspired by the bottom-left dark "References / Discover" card
+   ========================================================================== */
+
+.specimen-card--obsidian {
+  background: linear-gradient(160deg, #222226 0%, #161618 54%, #111113 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    0 22px 52px -14px rgba(10, 12, 18, 0.36),
+    0 6px 16px rgba(0, 0, 0, 0.18);
+  padding: 20px 20px 16px;
+  gap: 13px;
+  color: #F7F7FA;
+}
+
+.specimen-card--obsidian .card-specular {
+  background: linear-gradient(
+    128deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.03) 34%,
+    rgba(255, 255, 255, 0) 60%
+  );
+}
+
+.specimen-card--obsidian:hover {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.24),
+    0 28px 62px -14px rgba(10, 12, 18, 0.44),
+    0 8px 22px rgba(0, 0, 0, 0.22);
+}
+
+.specimen-card--obsidian.is-dragging {
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 38px 78px -14px rgba(8, 10, 16, 0.52),
+    0 12px 26px rgba(0, 0, 0, 0.26);
+}
+
+.obsidian-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  position: relative;
+  z-index: 2;
+}
+
+.obsidian-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+
+.specimen-card--obsidian .card-title {
+  color: #FAFAFC;
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
+.specimen-card--obsidian .card-subtitle {
+  color: rgba(255, 255, 255, 0.46);
+  font-size: 0.78rem;
+}
+
+.obsidian-pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.78);
+  flex-shrink: 0;
+}
+
+.specimen-card--obsidian .card-media {
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #1C1C20;
+  box-shadow: 0 12px 28px -10px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 2;
+}
+
+.specimen-card--obsidian .card-media-tag {
+  background: rgba(20, 20, 24, 0.78);
+  border-color: rgba(255, 255, 255, 0.18);
+  color: #FAFAFC;
+}
+
+.obsidian-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 2px;
+  position: relative;
+  z-index: 2;
+}
+
+.obsidian-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.obsidian-meta-code {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.obsidian-meta-loc {
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.38);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.obsidian-discover {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  transition: transform 0.32s var(--ease-mechanical), opacity 0.25s var(--ease-mechanical);
+}
+
+.obsidian-discover svg {
+  width: 12px;
+  height: 12px;
+  transition: transform 0.32s var(--ease-mechanical);
+}
+
+.specimen-card--obsidian:hover .obsidian-discover svg {
+  transform: translateX(3px);
+}
+
+/* ==========================================================================
+   Editorial Essay Surface (Writer Role) — Adapted Across All 3 Surfaces
+   ========================================================================== */
+
+.card-essay-surface {
+  width: 100%;
+  height: 100%;
+  padding: 20px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background:
+    radial-gradient(circle at 82% 20%, rgba(244, 162, 140, 0.24), transparent 54%),
+    radial-gradient(circle at 18% 86%, rgba(111, 145, 144, 0.16), transparent 52%),
+    #FAF9F7;
+  position: relative;
+}
+
+.card-essay-kicker {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(20, 20, 24, 0.08);
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  color: #2A2A2E;
+}
+
+.card-essay-quote {
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  line-height: 1.54;
+  letter-spacing: -0.015em;
+  color: #161618;
+  font-weight: 400;
+}
+
+.card-essay-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 10px;
+  border-top: 1px solid rgba(20, 20, 24, 0.08);
+  font-family: var(--font-sans);
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #868690;
+}
+
+/* Dark Obsidian Essay Surface Adaptation */
+.specimen-card--obsidian .card-essay-surface {
+  background:
+    radial-gradient(circle at 80% 18%, rgba(244, 162, 140, 0.2), transparent 54%),
+    radial-gradient(circle at 16% 88%, rgba(111, 145, 144, 0.18), transparent 52%),
+    #1B1B1F;
+}
+
+.specimen-card--obsidian .card-essay-kicker {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.specimen-card--obsidian .card-essay-quote {
+  color: #F2F2F6;
+}
+
+.specimen-card--obsidian .card-essay-meta {
+  border-top-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* ==========================================================================
+   Deck Controls — Floating Frosted Glass Pill Dock
+   ========================================================================== */
+
+.deck-controls {
+  margin-top: clamp(20px, 3vh, 30px);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 6px;
+  background: rgba(255, 255, 255, 0.58);
+  backdrop-filter: blur(22px) saturate(145%);
+  -webkit-backdrop-filter: blur(22px) saturate(145%);
+  border: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 999px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 12px 30px -10px rgba(15, 38, 58, 0.15),
+    0 2px 8px rgba(20, 20, 24, 0.04);
+  z-index: 25;
+}
+
+.deck-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: #18181B;
+  padding: 7px 14px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  transition: all 0.26s var(--ease-mechanical);
+  white-space: nowrap;
+}
+
+.deck-btn--icon {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+}
+
+.deck-arrow-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+.deck-btn:hover {
+  background: #161618;
+  color: #FFFFFF;
+}
+
+.deck-btn.is-active {
+  background: #161618;
+  color: #FFFFFF;
+}
+
+.deck-btn-sep {
+  width: 1px;
+  height: 14px;
+  background: rgba(22, 22, 24, 0.12);
+}
+
+.deck-status-pill {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: rgba(22, 22, 24, 0.56);
+  padding: 0 12px 0 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.deck-hint {
+  position: relative;
+  z-index: 25;
+  margin-top: 11px;
+  padding: 5px 14px;
+  background: rgba(255, 255, 255, 0.44);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.62);
+  border-radius: 999px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: rgba(22, 22, 24, 0.6);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  will-change: opacity, transform;
+  transition:
+    opacity 0.28s var(--ease-mechanical),
+    transform 0.28s var(--ease-mechanical);
+}
+
+.deck-hint.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.deck-hint.is-visible.is-subtle {
+  opacity: 0.72;
+}
+
+/* ==========================================================================
+   Modals: Harmonized Frosted Minimalist Dossier, Archive Index & About
+   ========================================================================== */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: rgba(18, 18, 22, 0.34);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(16px, 3vw, 40px);
+  overscroll-behavior: contain;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.32s var(--ease-mechanical), visibility 0.32s var(--ease-mechanical);
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.modal-panel {
+  width: min(880px, 100%);
+  max-height: 88vh;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(28px) saturate(140%);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  border-radius: 26px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.95),
+    0 34px 80px -18px rgba(15, 38, 58, 0.32);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: translateY(14px) scale(0.985);
+  transition: transform 0.4s var(--ease-mechanical);
+  position: relative;
+}
+
+.modal-backdrop.is-open .modal-panel {
+  transform: translateY(0) scale(1);
+}
+
+.modal-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 22px;
+  border-bottom: 1px solid rgba(22, 22, 24, 0.08);
+  background: rgba(246, 245, 248, 0.66);
+}
+
+.modal-close-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid rgba(22, 22, 24, 0.16);
+  background: rgba(255, 255, 255, 0.8);
+  color: #161618;
+  flex-shrink: 0;
+  transition: all 0.22s var(--ease-mechanical);
+}
+
+.modal-close-icon {
+  width: 13px;
+  height: 13px;
+  display: block;
+}
+
+.modal-close-btn:hover {
+  background: #161618;
+  border-color: #161618;
+  color: #FFFFFF;
+}
+
+/* Specimen Dossier Grid */
+.dossier-body {
+  display: grid;
+  grid-template-columns: 1.08fr 0.92fr;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.dossier-visual {
+  padding: 24px;
+  background: rgba(244, 243, 246, 0.65);
+  border-right: 1px solid rgba(22, 22, 24, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 360px;
+}
+
+.dossier-visual-frame {
+  position: relative;
+  width: 100%;
+  max-height: 62vh;
+  aspect-ratio: 4 / 5;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background: #FFFFFF;
+  box-shadow: 0 16px 36px -14px rgba(15, 38, 58, 0.16);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dossier-visual-frame img,
+.dossier-visual-frame svg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.dossier-content {
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.dossier-title {
+  font-size: clamp(1.45rem, 2.3vw, 1.95rem);
+  font-weight: 500;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  margin-top: 8px;
+}
+
+.dossier-notes {
+  margin-top: 14px;
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--ink-secondary);
+}
+
+.dossier-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px 16px;
+  padding: 16px 0;
+  border-top: 1px solid rgba(22, 22, 24, 0.08);
+  border-bottom: 1px solid rgba(22, 22, 24, 0.08);
+}
+
+.dossier-spec-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.dossier-spec-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--ink-tertiary);
+  text-transform: uppercase;
+}
+
+.dossier-spec-value {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--ink-primary);
+}
+
+.dossier-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Archive Index Modal */
+.index-panel {
+  width: min(980px, 100%);
+}
+
+.index-body {
+  padding: 20px 24px 28px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.index-row {
+  display: grid;
+  grid-template-columns: 44px 180px 1fr 76px;
+  align-items: baseline;
+  gap: 16px;
+  padding: 13px 14px;
+  border-radius: 14px;
+  border-bottom: 1px solid rgba(22, 22, 24, 0.06);
+  text-align: left;
+  width: 100%;
+  transition: background 0.22s var(--ease-mechanical), padding-left 0.22s var(--ease-mechanical);
+}
+
+.index-row:hover {
+  background: rgba(22, 22, 24, 0.045);
+  padding-left: 18px;
+}
+
+.index-row-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--prussian);
+}
+
+.index-row-role {
+  font-weight: 500;
+  font-size: 1.05rem;
+  letter-spacing: -0.015em;
+}
+
+.index-row-desc {
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+
+.index-row-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--ink-tertiary);
+  text-align: right;
+}
+
+/* About Dossier Modal */
+.about-panel {
+  width: min(880px, 100%);
+}
+
+.about-body {
+  display: grid;
+  grid-template-columns: minmax(260px, 324px) 1fr;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.about-portrait-col {
+  margin: 0;
+  padding: 24px;
+  background: rgba(244, 243, 246, 0.65);
+  border-right: 1px solid rgba(22, 22, 24, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.about-portrait-frame {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  min-height: 300px;
+  border-radius: 20px;
+  border: 1px dashed rgba(22, 22, 24, 0.16);
+  background:
+    radial-gradient(circle at 50% 34%, rgba(255, 255, 255, 0.92), rgba(236, 234, 239, 0.68));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 14px 32px -16px rgba(15, 38, 58, 0.14);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.about-portrait-frame:has(.about-portrait-img[src]:not([src=""])) {
+  border-style: solid;
+  border-color: rgba(255, 255, 255, 0.85);
+  background: #FFFFFF;
+}
+
+.about-portrait-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  z-index: 2;
+}
+
+.about-portrait-img:not([src]),
+.about-portrait-img[src=""] {
+  display: none;
+}
+
+.about-portrait-placeholder {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: rgba(22, 22, 24, 0.36);
+  padding: 20px;
+}
+
+.about-reg {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  line-height: 1;
+  color: rgba(22, 22, 24, 0.26);
+}
+
+.about-reg--tl { top: 12px; left: 14px; }
+.about-reg--tr { top: 12px; right: 14px; }
+.about-reg--bl { bottom: 12px; left: 14px; }
+.about-reg--br { bottom: 12px; right: 14px; }
+
+.about-portrait-glyph {
+  width: 56px;
+  height: 56px;
+  opacity: 0.72;
+}
+
+.about-portrait-slot-label {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+}
+
+.about-portrait-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--ink-tertiary);
+  padding: 0 2px;
+  white-space: nowrap;
+}
+
+.about-portrait-caption .mono {
+  font-size: 9.5px;
+}
+
+.about-content {
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  min-width: 0;
+}
+
+.about-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.about-lead {
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.35;
+}
+
+.about-p {
+  font-size: 0.94rem;
+  line-height: 1.68;
+  color: var(--ink-secondary);
+}
+
+.about-footer {
+  padding-top: 14px;
+  border-top: 1px solid var(--ink-faint);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+
+@media (max-width: 1024px) {
+  .deck-column {
+    min-width: 0;
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 6px;
+  }
+  .card-arena {
+    height: clamp(296px, 37vh, 354px);
+    width: 100%;
+  }
+  .specimen-card,
+  .arena-base-plate {
+    width: min(254px, 70vw);
+    height: clamp(254px, 31.5vh, 306px);
+    border-radius: 22px;
+  }
+  .specimen-card--glass {
+    padding: 12px 12px 11px;
+    gap: 7px;
+  }
+  .specimen-card--white {
+    padding: 12px 12px 10px;
+    gap: 6px;
+  }
+  .specimen-card--obsidian {
+    padding: 13px 13px 11px;
+    gap: 8px;
+  }
+  .card-media {
+    border-radius: 14px;
+  }
+  .white-frost-pane {
+    top: 8px;
+    bottom: 8px;
+    left: 8px;
+    border-radius: 14px;
+  }
+  .white-big-num {
+    font-size: 1.32rem;
+  }
+  .white-big-year {
+    font-size: 1.08rem;
+  }
+  .specimen-card--glass .card-title,
+  .specimen-card--obsidian .card-title {
+    font-size: 0.94rem;
+  }
+  .specimen-card--white .card-title {
+    font-size: 0.9rem;
+  }
+  .glass-field-pill {
+    padding: 4px 10px 4px 4px;
+  }
+  .glass-field-icon {
+    width: 20px;
+    height: 20px;
+  }
+  .deck-controls {
+    margin-top: 18px;
+    gap: 3px;
+    padding: 4px 5px;
+    max-width: 100%;
+  }
+  .deck-btn {
+    padding: 5px 9px;
+    font-size: 9.5px;
+  }
+  .deck-btn--icon {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+  }
+  .deck-status-pill {
+    padding: 0 7px;
+    font-size: 9.5px;
+  }
+  .deck-hint {
+    font-size: 9px;
+    margin-top: 6px;
+  }
+  .dossier-body {
+    grid-template-columns: 1fr;
+  }
+  .dossier-visual {
+    border-right: none;
+    border-bottom: 1px solid rgba(22, 22, 24, 0.08);
+    min-height: 240px;
+  }
+  .dossier-visual-frame {
+    max-height: 36vh;
+  }
+  .index-row {
+    grid-template-columns: 36px 1fr 60px;
+  }
+  .index-row-desc {
+    display: none;
+  }
+  .about-body {
+    grid-template-columns: 1fr;
+  }
+  .about-portrait-col {
+    border-right: none;
+    border-bottom: 1px solid rgba(22, 22, 24, 0.08);
+    align-items: center;
+    padding: 20px;
+  }
+  .about-portrait-frame {
+    flex: none;
+    aspect-ratio: 4 / 5;
+    min-height: 0;
+    max-width: 210px;
+  }
+  .about-portrait-caption {
+    width: 100%;
+    max-width: 210px;
+  }
+  .about-content {
+    padding: 22px 20px;
+  }
+}
